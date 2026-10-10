@@ -9,6 +9,17 @@ A personal job-search workspace: discover roles, swipe new matches, select jobs 
 
 ## Release status
 
+Status recorded **11 October 2026**:
+
+| Component | Status | Next step |
+|---|---|---|
+| v0.21.0 source | Committed to `main` | Review subsequent changes through pull requests |
+| Supabase inbox, decisions and search queue | Deployed; automated checks passed | Verify the complete owner workflow after frontend deployment |
+| Daily and request-check automations | Configured and active | Keep the local Codex runner available |
+| Frontend v0.21.0 | Runtime ZIP built; deployment unconfirmed | Upload to the existing Netlify site |
+| Mobile and cross-device acceptance | Pending; browser verification was blocked | Test sign-in, swiping, undo and search requests on real devices |
+
+
 The production site was last verified on **v0.19.0 on 10 October 2026**. Three researched recommendations were published through the API and the owner confirmed all three appeared. The repository includes the **v0.21.0 login, swipe and search-controls release candidate**. Its backend is deployed and its automated checks pass; frontend deployment and an authenticated browser/mobile acceptance test remain outstanding. Do not assume pushing this repository deploys the existing Netlify site: Git integration has not been connected or verified.
 
 Email/password login is enabled for an existing account with explicit JobPilot membership. Email-link login is deliberately disabled until its redirect and email flow are configured and tested. Do not change the shared Supabase project's main Site URL to fix this.
@@ -119,6 +130,22 @@ Read [DAILY-INBOX.md](DAILY-INBOX.md) for the package contract, private config s
 6. To roll back UI, restore the prior Netlify deployment. Do not drop database tables or erase IndexedDB as a rollback step.
 
 Clearing site storage can delete local CVs and application history. Export a backup first. A stale service worker needs a versioned release and reload, not a data wipe.
+
+## Handoff for the next contributor
+
+Read these documents in order before making changes:
+
+1. [AGENTS.md](AGENTS.md): repository rules, private data boundaries and required checks.
+2. [STATE.md](STATE.md): implemented features, verification evidence and outstanding release acceptance.
+3. [SEARCH-RUNNER.md](SEARCH-RUNNER.md): search queue claims, schedule behavior, delivery receipts and failure handling.
+4. [DAILY-INBOX.md](DAILY-INBOX.md): job package format, exclusions and API publishing.
+5. [DECISIONS.md](DECISIONS.md): background on earlier implementation choices.
+
+Start a branch from current `main` and open a pull request describing the user-visible change and validation. Keep source changes and production deployment evidence distinct. A merged PR does not prove the existing Netlify site updated. Documentation-only changes do not require a runtime version bump or replacement ZIP.
+
+The first remaining release task is to deploy and verify **v0.21.0**, not to rebuild the search backend. Build a fresh runtime ZIP with `node scripts/build.mjs dist`, upload `dist/jobpilot-dist-v0.21.0.zip` to the existing site, then follow the acceptance steps in STATE.md. Record the observed version and test results there after verification.
+
+Cloning this repository does not copy the owner's automations, private connection files, exclusion inventory, membership provisioning or browser CV data. Obtain the required operator configuration through a private channel; never commit it. For a fresh environment, follow the existing contracts and inspect backend migration history before changing the shared database.
 
 ## Guardrails for future contributors and AI tools
 
