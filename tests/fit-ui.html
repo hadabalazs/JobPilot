@@ -1,0 +1,14 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Preparing fit-score preview</title></head><body>Preparing fit-score preview…
+<script type="module">
+import { loadCV, JD_DELIVERY, GOOD_RESULT } from './fixtures/load.js';
+import { db, saveRun, loadSettings } from '../app/ui/store.js';
+import { localScore } from '../app/matching/localScore.js';
+const cv = await loadCV(), id = 'fit-ui-preview', now = new Date().toISOString();
+const job = { id, title: 'Delivery Manager – Digital Banking', company: 'Falcon Bank', location: 'Dubai', jdClean: JD_DELIVERY, jdRaw: JD_DELIVERY, status: 'scored', archived: 0, createdAt: now, updatedAt: now };
+job.localBreakdown = localScore(job, cv); job.localScore = job.localBreakdown.score;
+await db.setMeta('cvMaster', cv); await db.put('jobs', job);
+const settings = await loadSettings();
+const result = GOOD_RESULT(id); result.fit.score = 95; result.fit.verdict = 'strong';
+await saveRun({ job, cv, settings, provider: { id: 'mock', name: 'Mock model', pricing: { inPerM: 0, outPerM: 0 } }, req: { jdText: JD_DELIVERY, applicationContext: '', options: { mode: 'tailor', includeCover: false } }, result, raw: '', usage: null });
+location.replace('../index.html#/job/' + id);
+</script></body></html>

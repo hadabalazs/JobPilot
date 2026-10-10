@@ -1,0 +1,36 @@
+/* ATS-safe single-column CV. Real text, standard fonts, no tables. */
+@page { size: A4; margin: 16mm 17mm; }
+:root { --ink: #111; --muted: #444; --rule: #bbb; --accent: #1f5f3f; }
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body { font-family: Inter, "Segoe UI", Arial, Helvetica, sans-serif; color: var(--ink); font-size: 10.5pt; line-height: 1.38; }
+.page { padding: 0; }
+header.id { border-bottom: 1.5px solid var(--ink); padding-bottom: 6pt; margin-bottom: 10pt; }
+header.id h1 { font-size: 20pt; margin: 0 0 2pt; letter-spacing: -0.01em; }
+header.id .headline { margin: 0; color: var(--muted); font-size: 11pt; }
+header.id .contact { margin: 4pt 0 0; font-size: 9.5pt; color: var(--muted); }
+header.id .contact span + span::before { content: "  ·  "; }
+h2 { font-size: 10.5pt; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); margin: 12pt 0 5pt; padding-bottom: 2pt; border-bottom: 0.6pt solid var(--rule); break-after: avoid; }
+p { margin: 0 0 6pt; }
+.role { margin: 0 0 8pt; break-inside: avoid; }
+.role .head { display: flex; justify-content: space-between; gap: 12pt; align-items: flex-start; }
+.role .role-info { min-width: 0; flex: 1 1 auto; }
+.role .title { font-weight: 600; }
+.role .employer { color: var(--muted); margin-top: 1pt; }
+.role .dates { color: var(--muted); white-space: nowrap; flex: 0 0 auto; font-size: 9.5pt; }
+.role .context { color: var(--muted); font-size: 9.5pt; margin: 1pt 0 3pt; }
+ul { margin: 2pt 0 0; padding-left: 13pt; }
+li { margin: 0 0 2.5pt; }
+.skills p { margin: 0 0 3pt; } .skills b { font-weight: 600; }
+.edu, .cert { margin: 0 0 3pt; }
+.cover { page-break-before: always; }
+.cover .to { color: var(--muted); margin-bottom: 14pt; }
+.cover p { margin-bottom: 9pt; }
+/* Tailored-for-this-job highlight and why-notes. Screen only — never printed into the PDF. */
+@media screen {
+  .tailored { background: #dcf5e4; box-shadow: 0 0 0 2px #dcf5e4; border-radius: 3px; }
+  .why { display: block; margin-top: 2pt; font-size: 8.5pt; line-height: 1.35; color: #2f6b4f; font-style: italic; }
+  .why::before { content: "why: "; font-style: normal; opacity: 0.7; }
+}
+@media print { .tailored { background: none !important; box-shadow: none !important; } .why { display: none !important; } }
+@media screen { body { padding: 28px 36px; max-width: 210mm; margin: 0 auto; background: #fff; } }

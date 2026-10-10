@@ -1,0 +1,16 @@
+<!doctype html><meta charset="utf-8"><title>Enhanced draft test fixture</title><p id="status">Preparing isolated demo…</p><script type="module">
+import {loadCV, GOOD_RESULT, JD_DELIVERY} from './fixtures/load.js';
+import {db, saveCV, buildRequest, saveRun} from '../app/ui/store.js';
+import {getProvider} from '../app/providers/registry.js';
+if (!['127.0.0.1', 'localhost'].includes(location.hostname)) throw new Error('Local test fixture only');
+const cv = await loadCV();
+if (await db.getMeta('cvMaster')) throw new Error('Existing CV found; refusing to replace it');
+await saveCV(cv);
+const job = {id:'enhancement-demo',title:'Delivery Manager — enhancement demo',company:'Falcon Bank',jdClean:JD_DELIVERY,status:'scored',createdAt:new Date().toISOString()};
+const settings={pageTarget:2,sliceCharBudget:14000,providers:[{id:'manual',kind:'manual'}]};
+const result=GOOD_RESULT(job.id);
+result.selection.skills_selected=['Cross-team delivery coordination'];
+result.selection.summary_override='Delivery manager supporting digital banking delivery across 6 squads.';
+await saveRun({job,cv,settings,provider:getProvider({id:'manual',kind:'manual',name:'Demo'}),req:buildRequest(job,cv,settings,{mode:'enhance'}),result});
+location.href='/#/job/enhancement-demo';
+</script>

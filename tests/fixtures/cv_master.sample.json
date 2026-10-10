@@ -1,0 +1,110 @@
+{
+  "schema_version": 2,
+  "identity": {
+    "full_name": "Alex Sample",
+    "headline": "Delivery Manager · Agile Coach · Programme Lead",
+    "location": "Dubai, UAE",
+    "email": "alex@example.com",
+    "phone": "+971 50 000 0000",
+    "links": [{ "label": "LinkedIn", "url": "https://linkedin.com/in/alex-sample" }],
+    "work_authorization": "UAE residence visa",
+    "languages": [{ "name": "English", "level": "C2" }, { "name": "Hungarian", "level": "Native" }]
+  },
+  "summary_variants": [
+    { "id": "sum_delivery", "audience": "delivery-manager", "text": "Delivery manager with 12+ years leading cross-functional squads in banking and retail, from discovery to release. Known for turning stalled programmes into predictable delivery and for building Scrum Master capability that outlasts the engagement." },
+    { "id": "sum_agile", "audience": "agile-coach", "text": "Agile coach and Scrum chapter lead who has coached 20+ Scrum Masters and leadership teams through scaled delivery in regulated environments, with a bias for measurable flow improvement over ceremony." }
+  ],
+  "competencies": [
+    { "id": "c_delivery", "label": "Delivery management", "aliases": ["release management", "programme delivery", "program delivery", "project delivery", "end-to-end delivery"] },
+    { "id": "c_agile_scaling", "label": "Agile at scale", "aliases": ["SAFe", "LeSS", "scaled agile", "agile transformation", "agile coaching"] },
+    { "id": "c_scrum", "label": "Scrum leadership", "aliases": ["Scrum Master", "scrum", "sprint planning", "retrospectives"] },
+    { "id": "c_stakeholders", "label": "Stakeholder management", "aliases": ["executive stakeholders", "steering committee", "stakeholder engagement"] },
+    { "id": "c_mobile", "label": "Mobile banking delivery", "aliases": ["mobile app", "digital onboarding", "mobile banking", "iOS", "Android"] },
+    { "id": "c_metrics", "label": "Flow metrics & reporting", "aliases": ["cycle time", "throughput", "DORA", "velocity", "OKRs", "KPIs"] },
+    { "id": "c_vendor", "label": "Vendor management", "aliases": ["vendor", "third party", "outsourcing", "SLA"] }
+  ],
+  "experience": [
+    {
+      "id": "exp_bank",
+      "employer": "Gulf Commercial Bank",
+      "title": "Delivery Manager & Scrum Chapter Lead",
+      "location": "Dubai",
+      "start": "2024-01",
+      "end": null,
+      "industry": "banking",
+      "context": "Digital onboarding programme for the retail mobile app; 6 squads, ~45 engineers, 5 Scrum Masters reporting into the chapter.",
+      "bullets": [
+        { "id": "b_bank_01", "text": "Lead delivery of the mobile onboarding programme across 6 squads and 45 engineers, cutting release lead time from 6 weeks to 2 weeks within 9 months.", "competencies": ["c_delivery", "c_mobile", "c_metrics"], "keywords": ["mobile onboarding", "squads", "release lead time"], "metrics": { "squads": 6, "engineers": 45, "lead_time_before_weeks": 6, "lead_time_after_weeks": 2, "months": 9 }, "strength": 3 },
+        { "id": "b_bank_02", "text": "Built and lead a chapter of 5 Scrum Masters, introducing a coaching framework and quarterly capability reviews.", "competencies": ["c_scrum", "c_agile_scaling"], "keywords": ["Scrum Masters", "chapter", "coaching"], "metrics": { "scrum_masters": 5 }, "strength": 2 },
+        { "id": "b_bank_03", "text": "Ran the programme steering committee with C-level stakeholders, replacing status decks with a flow-metrics dashboard (cycle time, throughput, WIP).", "competencies": ["c_stakeholders", "c_metrics"], "keywords": ["steering committee", "dashboard", "cycle time"], "metrics": {}, "strength": 2 },
+        { "id": "b_bank_04", "text": "Managed two offshore vendor teams against SLAs, renegotiating scope to recover a 3-month schedule slip.", "competencies": ["c_vendor", "c_delivery"], "keywords": ["vendor", "SLA", "offshore"], "metrics": { "vendors": 2, "months_recovered": 3 }, "strength": 2 }
+      ]
+    },
+    {
+      "id": "exp_retail",
+      "employer": "MENA Retail Group",
+      "title": "Senior Project Manager, Digital",
+      "location": "Dubai",
+      "start": "2021-03",
+      "end": "2023-12",
+      "industry": "retail",
+      "context": "E-commerce and loyalty platform delivery across 4 countries.",
+      "bullets": [
+        { "id": "b_retail_01", "text": "Delivered a loyalty platform relaunch across 4 countries on time and 8% under budget, coordinating 3 vendors and internal engineering.", "competencies": ["c_delivery", "c_vendor"], "keywords": ["loyalty", "e-commerce", "budget"], "metrics": { "countries": 4, "under_budget_pct": 8, "vendors": 3 }, "strength": 3 },
+        { "id": "b_retail_02", "text": "Introduced Kanban and weekly flow reviews for the platform team, halving average cycle time over two quarters.", "competencies": ["c_metrics", "c_agile_scaling"], "keywords": ["Kanban", "cycle time"], "metrics": { "cycle_time_reduction_pct": 50, "quarters": 2 }, "strength": 2 },
+        { "id": "b_retail_03", "text": "Owned the delivery roadmap and quarterly OKRs with product and commercial leads.", "competencies": ["c_stakeholders", "c_metrics"], "keywords": ["roadmap", "OKRs"], "metrics": {}, "strength": 1 }
+      ]
+    },
+    {
+      "id": "exp_agency",
+      "employer": "Northline Digital",
+      "title": "Agile Project Lead",
+      "location": "Budapest",
+      "start": "2017-06",
+      "end": "2021-02",
+      "industry": "software agency",
+      "context": "Client delivery for fintech and telco customers.",
+      "bullets": [
+        { "id": "b_agency_01", "text": "Led delivery for 5 fintech client engagements, running Scrum teams of 6–10 people and managing client stakeholders end-to-end.", "competencies": ["c_scrum", "c_delivery", "c_stakeholders"], "keywords": ["fintech", "client", "Scrum"], "metrics": { "engagements": 5, "team_min": 6, "team_max": 10 }, "strength": 2 },
+        { "id": "b_agency_02", "text": "Shipped a mobile banking app for a challenger bank from discovery to App Store release in 11 months.", "competencies": ["c_mobile", "c_delivery"], "keywords": ["mobile banking", "App Store"], "metrics": { "months": 11 }, "strength": 3 }
+      ]
+    },
+    {
+      "id": "exp_consult",
+      "employer": "Strategy Consulting Co.",
+      "title": "Digital Consultant",
+      "location": "Budapest",
+      "start": "2014-09",
+      "end": "2017-05",
+      "industry": "consulting",
+      "context": "Digital transformation engagements for banks and insurers.",
+      "bullets": [
+        { "id": "b_consult_01", "text": "Supported 4 digital transformation engagements for banks and insurers, owning workstream planning and PMO reporting.", "competencies": ["c_delivery", "c_stakeholders"], "keywords": ["transformation", "PMO", "banks"], "metrics": { "engagements": 4 }, "strength": 1 },
+        { "id": "b_consult_02", "text": "Co-designed an agile operating model for a retail bank's digital unit, later adopted across 3 tribes.", "competencies": ["c_agile_scaling"], "keywords": ["operating model", "tribes"], "metrics": { "tribes": 3 }, "strength": 2 }
+      ]
+    }
+  ],
+  "education": [
+    { "id": "edu_1", "institution": "Budapest University of Technology", "degree": "MSc Engineering Management", "start": "2009", "end": "2014" }
+  ],
+  "certifications": [
+    { "id": "cert_1", "name": "Professional Scrum Master II", "issuer": "Scrum.org", "year": 2019 },
+    { "id": "cert_2", "name": "SAFe Agilist", "issuer": "Scaled Agile", "year": 2022 }
+  ],
+  "skills": {
+    "groups": [
+      { "label": "Agile & Delivery", "items": ["Scrum", "Kanban", "SAFe", "Release management", "Roadmapping", "Risk management"] },
+      { "label": "Tools", "items": ["Jira", "Confluence", "Azure DevOps", "Miro", "Power BI"] },
+      { "label": "Leadership", "items": ["Coaching", "Stakeholder management", "Vendor management", "Hiring"] }
+    ]
+  },
+  "preferences": {
+    "target_titles": ["Delivery Manager", "Head of Delivery", "Agile Delivery Lead", "Programme Manager", "Scrum Chapter Lead"],
+    "target_locations": ["Dubai", "Abu Dhabi", "Remote"],
+    "industries_preferred": ["banking", "fintech", "financial services"],
+    "industries_avoid": ["gambling"],
+    "seniority": "senior",
+    "must_haves": [],
+    "deal_breakers": ["Arabic mandatory"]
+  }
+}

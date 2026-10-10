@@ -1,0 +1,14 @@
+node_modules/
+.DS_Store
+*.log
+dist/
+output/
+.private/
+.env
+.env.*
+!.env.example
+*.receipt.json
+jobpilot-connection*.json
+jobpilot-device-connection*.json
+jobpilot-existing-jobs.json
+*backup*.json

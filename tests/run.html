@@ -1,0 +1,12 @@
+<!doctype html><html><head><meta charset="utf-8"><title>JobPilot tests</title>
+<style>body{font-family:ui-monospace,Menlo,monospace;padding:20px;font-size:13px}.ok{color:#1f7a3f}.bad{color:#b3261e}li{margin:3px 0}pre{white-space:pre-wrap;color:#b3261e;margin:2px 0 8px 16px}</style></head>
+<body><h2 id="sum">Running…</h2><ul id="out"></ul>
+<script type="module">
+import { run } from './harness.js';
+await Promise.all(['schemas','parse','guardrails','prompt','slice','localScore','fitScore','render','tracker','providers','pdfDoc','backfill','ats','improve','enhance','readiness','bulk','jobImport'].map(n => import(`./${n}.test.js`)));
+const res = await run();
+const pass = res.filter(r => r.ok).length;
+document.getElementById('sum').textContent = `${pass} / ${res.length} passed`;
+document.getElementById('sum').className = pass === res.length ? 'ok' : 'bad';
+document.getElementById('out').innerHTML = res.map(r => `<li class="${r.ok ? 'ok' : 'bad'}">${r.ok ? '✓' : '✗'} ${r.name}${r.ok ? '' : `<pre>${r.error}</pre>`}</li>`).join('');
+</script></body></html>

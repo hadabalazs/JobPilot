@@ -1,0 +1,2 @@
+[functions.jobpilot-inbox]
+verify_jwt = false

@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>JobPilot</title>
+<meta name="description" content="Personal job-search cockpit: tailor your CV per role, check it for invented facts, track the pipeline. Local-first, works with a free AI chat.">
+<meta name="theme-color" content="#ffffff">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="stylesheet" href="app/styles.css">
+<script type="importmap">
+{ "imports": { "preact": "./vendor/preact.module.js", "preact/hooks": "./vendor/preact-hooks.module.js", "htm": "./vendor/htm.module.js" } }
+</script>
+</head>
+<body>
+<div id="app"></div>
+<noscript>JobPilot needs JavaScript.</noscript>
+<script src="vendor/supabase-2.117.3.js"></script>
+<script type="module" src="app/main.js"></script>
+</body>
+</html>

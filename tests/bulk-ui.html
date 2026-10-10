@@ -1,0 +1,31 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Bulk queue mock test</title>
+<link rel="stylesheet" href="../app/styles.css">
+<script type="importmap">{"imports":{"preact":"../vendor/preact.module.js","preact/hooks":"../vendor/preact-hooks.module.js","htm":"../vendor/htm.module.js"}}</script>
+</head><body style="padding:24px"><h1>Bulk queue test — mocked responses only</h1><p id="calls">No API requests</p><div id="root"></div>
+<script type="module">
+import { render } from 'preact';
+import { html } from '../app/ui/components.js';
+import { BulkRun } from '../app/ui/BulkRun.js';
+import { loadCV, JD_DELIVERY, GOOD_RESULT } from './fixtures/load.js';
+const cv = await loadCV();
+const jobs = ['ready', 'review', 'failed'].map(id => ({ id: 'ui-' + id, title: id === 'ready' ? 'Ready test job' : id === 'review' ? 'Review test job' : 'Failed test job', company: 'Example', jdClean: JD_DELIVERY, status: 'scored' }));
+const counts = {};
+globalThis.fetch = async (url, options) => {
+  const body = JSON.parse(options.body);
+  const text = body.messages[1].content;
+  const id = jobs.find(j => text.includes(j.id)).id;
+  counts[id] = (counts[id] || 0) + 1;
+  document.getElementById('calls').textContent = 'Mock requests: ' + JSON.stringify(counts);
+  await new Promise((resolve, reject) => {
+    if (options.signal?.aborted) return reject(new DOMException('Cancelled', 'AbortError'));
+    const timer = setTimeout(resolve, 300);
+    options.signal?.addEventListener('abort', () => { clearTimeout(timer); reject(new DOMException('Cancelled', 'AbortError')); }, { once: true });
+  });
+  const result = GOOD_RESULT(id);
+  if (id === 'ui-review') result.rewrites[0].text = 'Managed 999 unsupported projects.';
+  if (id === 'ui-failed' && counts[id] <= 2) result.rewrites = 'broken';
+  return { ok: true, json: async () => ({ choices: [{ message: { content: JSON.stringify(result) } }], usage: { prompt_tokens: 10, completion_tokens: 10 } }) };
+};
+const settings = { sliceCharBudget: 14000, pageTarget: 2, monthlyCapUsd: 0, forbiddenClaims: [], activeProviderId: 'mock', providers: [{ id: 'mock', name: 'Mock provider', kind: 'openai_compatible', model: 'mock-model', baseUrl: 'https://mock.invalid/v1', jsonMode: 'json_object', pricing: { inPerM: 1, outPerM: 1 } }] };
+render(html`<${BulkRun} jobs=${jobs} cv=${cv} settings=${settings} onDone=${async () => {}} onClose=${() => {}} />`, document.getElementById('root'));
+</script></body></html>
