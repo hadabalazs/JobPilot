@@ -1,6 +1,12 @@
 # Current implementation and release state
 
-Updated 10 October 2026. Source: **0.20.5**. Last verified frontend: **0.19.0**.
+Updated 10 October 2026. Source: **0.21.0**. Last verified frontend: **0.19.0**.
+
+## Search controls (0.21.0)
+
+Search now, a 1–20 match limit and up to three extra daily Dubai times are implemented. Membership-checked preferences/queue RPCs and admin-only claim/finish functions are deployed. The original 09:00 automation remains active, and a new five-minute heartbeat checks requests/due schedules. Both follow SEARCH-RUNNER.md. No genuine on-demand research has yet been triggered by the owner through the new UI. Frontend deployment is still pending.
+
+Transactional database checks passed authorization, range validation, revision conflicts, request deduplication, exclusive claims, lease validation and exact request retries; changes were rolled back. New Node tests passed request/batch validation and API error handling. Browser verification was blocked by an unavailable browser security check; no bypass attempted.
 
 ## Compact swipe layout (0.20.5)
 
@@ -19,14 +25,15 @@ Settings menu groups Master CV, app settings and sign-out. Mobile navigation occ
 
 ## Verification
 
-The Node harness reports 137/137 and the cloud/review/status/exclusion Node suite reports 22/22. Some historical harness cases require a browser and return early under Node; a Node pass does not establish browser/IndexedDB visual acceptance. Runtime packaging checks syntax, imports, offline paths and ZIP integrity.
+The Node harness reports 137/137 and the cloud/review/status/exclusion Node suite reports 25/25. Some historical harness cases require a browser and return early under Node; a Node pass does not establish browser/IndexedDB visual acceptance. Runtime packaging checks syntax, imports, offline paths and ZIP integrity.
 
 ## Remaining release acceptance
 
-1. Deploy the supplied v0.20.5 runtime ZIP to the existing jobpilotgcc site (or explicitly connect this repo to that site).
+1. Deploy the supplied v0.21.0 runtime ZIP to the existing jobpilotgcc site (or explicitly connect this repo to that site).
 2. Owner signs in with their existing confirmed account/password. Email links are disabled pending redirect configuration and a real email-flow test.
 3. Verify mobile gestures, buttons, undo, desktop Selected/Archived statuses and cross-device refresh; verify existing CVs and pipeline records remain intact.
-4. Record the production version and evidence here only after those checks pass.
+4. Queue a search from Job searches, confirm the chosen limit and result receipt/history; verify saved extra times on another device.
+5. Record the production version and evidence here only after those checks pass.
 
 Browser automation could read the existing site, but returned blank screenshots for the auth dashboard and did not complete the deployment file-picker action. No frontend v0.20 deployment is claimed. Do not clear browser data to troubleshoot.
 

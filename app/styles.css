@@ -348,3 +348,10 @@ details > summary { cursor:pointer; }
   .discover-swipe .swipe-card h2 { font-size:20px; }
   .discover-swipe .swipe-count { display:none; }
 }
+
+.search-settings { max-width: 800px; margin: 0 auto; }
+.search-controls, .search-history { padding: 20px; margin: 16px 0; }
+.search-controls label { display: block; }
+.search-controls input { display: block; max-width: 180px; margin: 8px 0; }
+.search-controls .actions { flex-wrap: wrap; margin-top: 12px; }
+.search-settings p { overflow-wrap: anywhere; }

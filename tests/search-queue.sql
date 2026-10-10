@@ -1,0 +1,32 @@
+begin;
+do $$
+declare u uuid; a jsonb; b jsonb; r jsonb; ok boolean;
+begin
+ select user_id into u from jobpilot.members limit 1;
+ if u is null then raise exception 'Provision a member first'; end if;
+ perform set_config('request.jwt.claim.sub','',true);
+ begin perform public.jobpilot_search_control(); raise exception 'Unauthorized request accepted'; exception when insufficient_privilege then null; end;
+ perform set_config('request.jwt.claim.sub',u::text,true);
+ a:=public.jobpilot_search_control();
+ begin perform public.jobpilot_search_control('save',21,'{}',(a->'preferences'->>'revision')::integer); raise exception 'Invalid count accepted'; exception when invalid_parameter_value then null; end;
+ begin perform public.jobpilot_search_control('save',10,array['09:00'],(a->'preferences'->>'revision')::integer); raise exception 'Duplicate daily time accepted'; exception when invalid_parameter_value then null; end;
+ b:=public.jobpilot_search_control('save',12,array['18:30'],(a->'preferences'->>'revision')::integer);
+ if (b->'preferences'->>'matchCount')::integer<>12 then raise exception 'Preferences not saved'; end if;
+ begin perform public.jobpilot_search_control('save',10,'{}',(a->'preferences'->>'revision')::integer); raise exception 'Stale revision accepted'; exception when serialization_failure then null; end;
+ a:=public.jobpilot_search_control('request',12,'{}',0,gen_random_uuid());
+ b:=public.jobpilot_search_control('request',3,'{}',0,gen_random_uuid());
+ if a->>'requestId'<>b->>'requestId' then raise exception 'Duplicate active request created'; end if;
+ r:=jobpilot.claim_search();
+ if r->>'id'<>a->>'requestId' or (r->>'match_count')::integer<>12 then raise exception 'Wrong request claimed'; end if;
+ if jobpilot.claim_search() is not null then raise exception 'Overlapping claim accepted'; end if;
+ ok:=jobpilot.finish_search((r->>'id')::uuid,gen_random_uuid(),true,'Wrong lease',0,0);
+ if ok then raise exception 'Wrong lease accepted'; end if;
+ ok:=jobpilot.finish_search((r->>'id')::uuid,(r->>'lease_id')::uuid,true,'Transaction-only test',0,0);
+ if not ok then raise exception 'Completion rejected'; end if;
+ ok:=jobpilot.finish_search((r->>'id')::uuid,(r->>'lease_id')::uuid,true,'Replay',0,0);
+ if ok then raise exception 'Completed lease replay accepted'; end if;
+ b:=public.jobpilot_search_control('request',12,'{}',0,(r->>'id')::uuid);
+ if b->>'requestId'<>r->>'id' then raise exception 'Request retry not idempotent'; end if;
+ if has_function_privilege('anon','public.jobpilot_search_control(text,integer,text[],integer,uuid)','execute') or has_function_privilege('authenticated','jobpilot.claim_search()','execute') or has_table_privilege('authenticated','jobpilot.search_requests','select') then raise exception 'Access boundary broken'; end if;
+end $$;
+rollback;

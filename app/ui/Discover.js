@@ -28,7 +28,7 @@ export function Discover({queue,view='discover',jobs=[],cv,refresh,navigate}) {
   };
   return html`<div class=${view==='discover' ? 'discover discover-swipe' : 'discover'}>
     <header class="topbar"><div><h1>${view==='saved' ? 'Selected jobs' : view==='passed' ? 'Archived jobs' : 'Discover jobs'}</h1></div>
-      <button class="btn ghost" disabled=${disabled} onClick=${reload}>${loading ? 'Checking…' : 'Refresh'}</button></header>
+      <div class="actions"><button class="btn ghost" onClick=${()=>navigate('#/search')}>Search</button><button class="btn ghost" disabled=${disabled} onClick=${reload}>${loading ? 'Checking…' : 'Refresh'}</button></div></header>
     <div class="review-tabs" aria-label="Job match views">
       <button class=${view==='discover' ? 'active' : ''} onClick=${()=>navigate('#/discover')}>Discover <span>${unseen.length}</span></button>
       <button class=${view==='saved' ? 'active' : ''} onClick=${()=>navigate('#/saved')}>Selected <span>${saved.length}</span></button>

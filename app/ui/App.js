@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'preact/hooks';
 import { html, ToastHost, toast } from './components.js';
 import { loadSettings, loadCV, loadJobs, loadEvents, loadUsage, backfillBestRunIds, recalibrateFitScores } from './store.js';
+import { SearchSettings } from './SearchSettings.js';
 import { Discover } from './Discover.js';
 import { useReviewQueue } from './useReviewQueue.js';
 import { isUntailored } from '../cloud/reviewStatus.js';
@@ -28,7 +29,7 @@ export function App() {
   const route = hash.replace(/^#/, '');
   let payload = null;
   if (route.startsWith('/intake')) { try { payload = JSON.parse(decodeURIComponent(escape(atob(decodeURIComponent(new URLSearchParams(route.split('?')[1]).get('p')))))); } catch { payload = null; } }
-  const page = route.startsWith('/job/') ? 'job' : route.startsWith('/board') ? 'board' : route.startsWith('/cv') ? 'cv' : route.startsWith('/settings') ? 'settings' : route.startsWith('/inbox') || route.startsWith('/intake') ? 'inbox' : route.startsWith('/saved') ? 'saved' : route.startsWith('/passed') ? 'passed' : 'discover';
+  const page = route.startsWith('/job/') ? 'job' : route.startsWith('/board') ? 'board' : route.startsWith('/cv') ? 'cv' : route.startsWith('/search') ? 'search' : route.startsWith('/settings') ? 'settings' : route.startsWith('/inbox') || route.startsWith('/intake') ? 'inbox' : route.startsWith('/saved') ? 'saved' : route.startsWith('/passed') ? 'passed' : 'discover';
   const nav = (id, label, href, count) => html`<button class="nav" aria-current=${page === id ? 'page' : null} onClick=${() => navigate(href)}>${label}${count != null ? html`<span class="count">${count}</span>` : null}</button>`;
   const active = state.jobs.filter(j => !j.archived);
   return html`<div class=${page === 'discover' ? 'shell swipe-shell' : 'shell'}>
@@ -40,6 +41,7 @@ export function App() {
       <details class="settings-menu" onKeyDown=${e=>{if(e.key==='Escape') { e.currentTarget.open=false; e.currentTarget.querySelector('summary').focus(); }}} onBlur=${e=>{if(!e.currentTarget.contains(e.relatedTarget)) e.currentTarget.open=false;}}>
         <summary class="nav" aria-label="Settings menu">Settings <span aria-hidden="true">⌄</span></summary>
         <div class="settings-dropdown" onClick=${e=>{if(e.target.closest('button')) e.currentTarget.closest('details').open=false;}}>
+          ${nav('search', 'Job searches', '#/search')}
           ${nav('cv', 'Master CV', '#/cv')}
           ${nav('settings', 'App settings', '#/settings')}
           <button class="nav signout" disabled=${signingOut} onClick=${signOut}>${signingOut ? 'Signing out…' : 'Sign out'}</button>
@@ -48,6 +50,7 @@ export function App() {
       </details>
     </aside>
     <main>
+      ${page === 'search' ? html`<${SearchSettings} />` : null}
       ${['discover','saved','passed'].includes(page) ? html`<${Discover} queue=${queue} view=${page} jobs=${state.jobs} cv=${state.cv} refresh=${refresh} navigate=${navigate} />` : null}
       ${page === 'inbox' ? html`<${Inbox} jobs=${state.jobs} cv=${state.cv} settings=${state.settings} refresh=${refresh} navigate=${navigate} initialPayload=${payload} />` : null}
       ${page === 'job' ? html`<${JobDetail} id=${route.slice(5)} jobs=${state.jobs} cv=${state.cv} settings=${state.settings} refresh=${refresh} navigate=${navigate} />` : null}
