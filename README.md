@@ -4,12 +4,12 @@ A personal job-search workspace: discover roles, swipe new matches, select jobs 
 
 - **Site:** https://jobpilotgcc.netlify.app/
 - **Source:** https://github.com/hadabalazs/JobPilot
-- **Source release:** 0.20.4
+- **Source release:** 0.20.5
 - **Start here when changing code:** this README → [AGENTS.md](AGENTS.md) → [STATE.md](STATE.md).
 
 ## Release status
 
-The production site was last verified on **v0.19.0 on 10 October 2026**. Three researched recommendations were published through the API and the owner confirmed all three appeared. The repository includes the **v0.20.4 login and swipe release candidate**. Its backend is deployed and its automated checks pass; frontend deployment and an authenticated browser/mobile acceptance test remain outstanding. Do not assume pushing this repository deploys the existing Netlify site: Git integration has not been connected or verified.
+The production site was last verified on **v0.19.0 on 10 October 2026**. Three researched recommendations were published through the API and the owner confirmed all three appeared. The repository includes the **v0.20.5 login and swipe release candidate**. Its backend is deployed and its automated checks pass; frontend deployment and an authenticated browser/mobile acceptance test remain outstanding. Do not assume pushing this repository deploys the existing Netlify site: Git integration has not been connected or verified.
 
 Email/password login is enabled for an existing account with explicit JobPilot membership. Email-link login is deliberately disabled until its redirect and email flow are configured and tested. Do not change the shared Supabase project's main Site URL to fix this.
 
@@ -68,7 +68,7 @@ node scripts/build.mjs dist
 
 `npm test` runs the original in-memory test harness plus Node tests for intake/API auth, duplicate prevention, swipe thresholds, pagination, conflict handling and status projection. A successful build checks JS syntax, relative imports, offline assets, version consistency and ZIP integrity. It produces:
 
-- `dist/jobpilot-dist-v0.20.4.zip` — manual Netlify upload.
+- `dist/jobpilot-dist-v0.20.5.zip` — manual Netlify upload.
 - `dist/site/` — allowlisted static files; Git-based Netlify publish directory.
 
 The build refuses to overwrite an existing same-version ZIP. Use a new version for a changed release or a fresh output directory for a verification build. Never deploy the repository root: it contains backend code, tests and operator documentation.

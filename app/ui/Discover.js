@@ -26,18 +26,18 @@ export function Discover({queue,view='discover',jobs=[],cv,refresh,navigate}) {
       if (navigator.locks) await navigator.locks.request('jobpilot-daily-import',run); else await run();
     } catch(e) { toast(e.message); } finally { setOpening(null); }
   };
-  return html`<div class="discover">
-    <header class="topbar"><div><p class="eyebrow">YOUR NEXT MOVE</p><h1>${view==='saved' ? 'Selected jobs' : view==='passed' ? 'Archived jobs' : 'A little closer to the right role.'}</h1></div>
+  return html`<div class=${view==='discover' ? 'discover discover-swipe' : 'discover'}>
+    <header class="topbar"><div><h1>${view==='saved' ? 'Selected jobs' : view==='passed' ? 'Archived jobs' : 'Discover jobs'}</h1></div>
       <button class="btn ghost" disabled=${disabled} onClick=${reload}>${loading ? 'Checking…' : 'Refresh'}</button></header>
     <div class="review-tabs" aria-label="Job match views">
       <button class=${view==='discover' ? 'active' : ''} onClick=${()=>navigate('#/discover')}>Discover <span>${unseen.length}</span></button>
       <button class=${view==='saved' ? 'active' : ''} onClick=${()=>navigate('#/saved')}>Selected <span>${saved.length}</span></button>
       <button class=${view==='passed' ? 'active' : ''} onClick=${()=>navigate('#/passed')}>Archived <span>${passed.length}</span></button>
     </div>
-    <div class="review-status" aria-live="polite">${saving ? 'Saving your choice…' : error ? html`<span class="error-text" role="alert">${error}</span>` : message || (feed.checkedAt ? 'Your queue is synced across devices.' : 'Connecting to your account…')}
-      ${undo ? html`<button class="btn sm ghost" disabled=${disabled} onClick=${()=>decide(undo.row,undo.previous,true)}>Undo last choice</button>` : null}</div>
+    <div class="review-status" aria-live="polite">${saving ? 'Saving your choice…' : error ? html`<span class="error-text" role="alert">${error}</span>` : message || (feed.checkedAt ? 'Synced' : 'Connecting to your account…')}
+      ${undo ? html`<button class="btn sm ghost" disabled=${disabled} onClick=${()=>decide(undo.row,undo.previous,true)}>Undo</button>` : null}</div>
     ${view==='discover' ? html`<div class="swipe-stage">
-      ${unseen.length ? html`<p class="muted small swipe-count">${unseen.length} match${unseen.length===1 ? '' : 'es'} to explore · Right to select, left to archive</p>
+      ${unseen.length ? html`<p class="muted small swipe-count">← Archive · Swipe to select →</p>
         <${SwipeCard} key=${unseen[0].id} row=${unseen[0]} disabled=${disabled} onDecide=${decision=>decide(unseen[0],decision)} />`
       : html`<div class="review-empty"><div class="empty-symbol">✓</div><h2>${loading ? 'Finding your matches…' : feed.jobs.length ? 'You’re all caught up.' : 'Your next chapter starts here.'}</h2>
         <p class="muted">${feed.jobs.length ? 'Your selected jobs are waiting in Selected. New recommendations will appear here after the next search.' : 'The daily search runs at 9 am Dubai time. New matches will arrive here ready to swipe.'}</p>
@@ -50,8 +50,8 @@ export function Discover({queue,view='discover',jobs=[],cv,refresh,navigate}) {
         ${safeUrl(row.job.sourceUrl) ? html`<a class="small" href=${safeUrl(row.job.sourceUrl)} target="_blank" rel="noopener noreferrer">View original posting ↗</a>` : null}
       </article>`)}</div>
       ${!(view==='saved' ? saved : passed).length ? html`<div class="review-empty"><h2>${view==='saved' ? 'Your shortlist is waiting to happen.' : 'No archived matches yet.'}</h2><p class="muted">Explore your matches and make your first choice.</p><button class="btn" onClick=${()=>navigate('#/discover')}>Discover jobs</button></div>` : null}`}
-    <footer class="discovery-footer"><p class="small muted">${feed.latestRun ? `Last search: ${date(feed.latestRun.completedAt)} · ${feed.latestRun.summary}` : 'Daily search · 9 am Dubai time'}</p>
-      <p class="small muted">Selected and archived choices sync into your inbox and pipeline. CVs, tailored documents and application tracking stay in the browser where you create them. Selecting a job never applies or starts paid tailoring.</p></footer>
+    <footer class="discovery-footer"><details><summary>Search & sync details</summary><div class="search-details"><p class="small muted">${feed.latestRun ? `Last search: ${date(feed.latestRun.completedAt)} · ${feed.latestRun.summary}` : 'Daily search · 9 am Dubai time'}</p>
+      <p class="small muted">Selected and archived choices sync into your inbox and pipeline. CVs, tailored documents and application tracking stay in the browser where you create them. Selecting a job never applies or starts paid tailoring.</p></div></details></footer>
   </div>`;
 }
 
@@ -65,11 +65,12 @@ function SwipeCard({row,disabled,onDecide}) {
   return html`<div class="swipe-wrap"><article class="swipe-card" aria-label=${job.title+' at '+job.company} onPointerDown=${down} onPointerMove=${move} onPointerUp=${up} onPointerCancel=${cancel} onLostPointerCapture=${cancel} style=${{transform:`translateX(${Math.max(-150,Math.min(150,offset))}px) rotate(${offset/30}deg)`}}>
     ${Math.abs(offset)>35 ? html`<div class=${'swipe-stamp '+(offset>0?'keep':'pass')}>${offset>0 ? 'SELECT' : 'ARCHIVE'}</div>` : null}
     <div class="swipe-card-top"><div class="company-mark">${(job.company || 'J').slice(0,2).toUpperCase()}</div><span class="chip good">Daily match</span></div>
-    <p class="eyebrow">${job.company}</p><h2>${job.title}</h2><p class="muted">${job.location}</p>
+    <div class="swipe-card-content" tabindex="0" role="region" aria-label="Job information"><p class="eyebrow">${job.company}</p><h2>${job.title}</h2><p class="muted">${job.location}</p>
     <p class="small muted">${job.postedAt ? 'Posted '+date(job.postedAt) : job.postingAgeText || 'Posting date unknown'}</p>
     <div class="fit-notes"><h3>Why it’s on your radar</h3><p>${job.notes || 'Selected by your daily job search. Review the role details to decide whether it fits.'}</p></div>
     <details><summary>Read the job details</summary><p class="job-description">${job.raw || job.description}</p>
       ${(job.links || []).filter(l=>safeUrl(l.url)).map(l=>html`<p><a href=${safeUrl(l.url)} target="_blank" rel="noopener noreferrer">${l.label || 'Application link'} ↗</a></p>`)}</details>
     ${safeUrl(job.sourceUrl) ? html`<a class="small original-link" href=${safeUrl(job.sourceUrl)} target="_blank" rel="noopener noreferrer">Open original posting ↗</a>` : null}
+    </div>
   </article><div class="swipe-actions"><button class="swipe-pass" disabled=${disabled} onClick=${()=>onDecide('pass')} aria-label="Archive this job"><b>×</b><span>Archive</span></button><button class="swipe-keep" disabled=${disabled} onClick=${()=>onDecide('keep')} aria-label="Select this job for review"><b>♡</b><span>Select</span></button></div></div>`;
 }

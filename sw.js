@@ -1,5 +1,5 @@
 /* JobPilot service worker. Bump CACHE_NAME on every deploy. App shell is cache-first; everything else network-only. */
-const CACHE_NAME = 'jobpilot-v0.20.4-swipe-review';
+const CACHE_NAME = 'jobpilot-v0.20.5-swipe-review';
 const SHELL = [
   './app/cloud/reviewStatus.js', './app/ui/reconcileReview.js','vendor/supabase-2.117.3.js', 'app/cloud/account.js', 'app/cloud/review.js', 'app/ui/AuthGate.js', 'app/ui/Discover.js', 'app/ui/useReviewQueue.js', 'app/cloud/client.js', 'app/ui/DailyMatches.js', 'app/ui/AtsReport.js', 'app/ui/JobBrief.js', 'app/ui/CareerEvidence.js', 'app/schemas/careerEvidence.js', 'app/intake/jobUrl.js', 'app/ui/selection.js', 'app/prompts/ats_research_v1.js', 'app/prompts/tailor_v3.js', 'app/prompts/enhance_v2.js', 'app/prompts/batch_v2.js', 'tests/fixtures/cv_master.sample.json','./', 'index.html', 'manifest.webmanifest', 'icon.svg', 'app/styles.css', 'app/main.js', 'app/config.js', 'app/db.js', 'app/ids.js',
   'app/schemas/cv_master.js', 'app/schemas/job.js', 'app/schemas/competency_vocab.js', 'app/schemas/tailor.js', 'app/intake/clean.js', 'app/matching/keywords.js', 'app/matching/ats.js', 'app/matching/localScore.js', 'app/matching/fitScore.js', 'app/slice/cvSlice.js',

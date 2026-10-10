@@ -1,6 +1,10 @@
 # Current implementation and release state
 
-Updated 10 October 2026. Source: **0.20.4**. Last verified frontend: **0.19.0**.
+Updated 10 October 2026. Source: **0.20.5**. Last verified frontend: **0.19.0**.
+
+## Compact swipe layout (0.20.5)
+
+Settings menu groups Master CV, app settings and sign-out. Mobile navigation occupies one row. Discover uses the dynamic viewport height, keeps action buttons visible and scrolls long content inside the card. Search/sync history is collapsed. This UI change is packaged; live/mobile visual verification remains pending.
 
 ## Completed
 
@@ -19,7 +23,7 @@ The Node harness reports 137/137 and the cloud/review/status/exclusion Node suit
 
 ## Remaining release acceptance
 
-1. Deploy the supplied v0.20.4 runtime ZIP to the existing jobpilotgcc site (or explicitly connect this repo to that site).
+1. Deploy the supplied v0.20.5 runtime ZIP to the existing jobpilotgcc site (or explicitly connect this repo to that site).
 2. Owner signs in with their existing confirmed account/password. Email links are disabled pending redirect configuration and a real email-flow test.
 3. Verify mobile gestures, buttons, undo, desktop Selected/Archived statuses and cross-device refresh; verify existing CVs and pipeline records remain intact.
 4. Record the production version and evidence here only after those checks pass.

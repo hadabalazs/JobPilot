@@ -31,16 +31,21 @@ export function App() {
   const page = route.startsWith('/job/') ? 'job' : route.startsWith('/board') ? 'board' : route.startsWith('/cv') ? 'cv' : route.startsWith('/settings') ? 'settings' : route.startsWith('/inbox') || route.startsWith('/intake') ? 'inbox' : route.startsWith('/saved') ? 'saved' : route.startsWith('/passed') ? 'passed' : 'discover';
   const nav = (id, label, href, count) => html`<button class="nav" aria-current=${page === id ? 'page' : null} onClick=${() => navigate(href)}>${label}${count != null ? html`<span class="count">${count}</span>` : null}</button>`;
   const active = state.jobs.filter(j => !j.archived);
-  return html`<div class="shell">
+  return html`<div class=${page === 'discover' ? 'shell swipe-shell' : 'shell'}>
     <aside class="side"><div class="logo"><i></i>JobPilot<small>v${APP_VERSION}</small></div>
       ${nav('discover', 'Discover', '#/discover', queue.feed.jobs.filter(j=>j.decision==='unseen' && isUntailored(matchingJob(j.job,state.jobs))).length)}
       ${nav('saved', 'Selected', '#/saved', queue.feed.jobs.filter(j=>j.decision==='keep').length)}
       ${nav('inbox', 'Inbox', '#/inbox', active.filter(j => ['inbox', 'scored'].includes(j.status)).length)}
       ${nav('board', 'Pipeline', '#/board', active.filter(j => !['inbox', 'scored'].includes(j.status)).length)}
-      ${nav('cv', 'Master CV', '#/cv')}
-      ${nav('settings', 'Settings', '#/settings')}
-      <button class="nav signout" disabled=${signingOut} onClick=${signOut}>${signingOut ? 'Signing out…' : 'Sign out'}</button>
-      <div class="foot">${state.cv ? state.cv.identity.full_name : 'No master CV'}<br/>Provider: ${(state.settings.providers.find(p => p.id === state.settings.activeProviderId) || {}).name || 'Manual'}</div>
+      <details class="settings-menu" onKeyDown=${e=>{if(e.key==='Escape') { e.currentTarget.open=false; e.currentTarget.querySelector('summary').focus(); }}} onBlur=${e=>{if(!e.currentTarget.contains(e.relatedTarget)) e.currentTarget.open=false;}}>
+        <summary class="nav" aria-label="Settings menu">Settings <span aria-hidden="true">⌄</span></summary>
+        <div class="settings-dropdown" onClick=${e=>{if(e.target.closest('button')) e.currentTarget.closest('details').open=false;}}>
+          ${nav('cv', 'Master CV', '#/cv')}
+          ${nav('settings', 'App settings', '#/settings')}
+          <button class="nav signout" disabled=${signingOut} onClick=${signOut}>${signingOut ? 'Signing out…' : 'Sign out'}</button>
+          <div class="account-caption">${state.cv ? state.cv.identity.full_name : 'No master CV'} · v${APP_VERSION}</div>
+        </div>
+      </details>
     </aside>
     <main>
       ${['discover','saved','passed'].includes(page) ? html`<${Discover} queue=${queue} view=${page} jobs=${state.jobs} cv=${state.cv} refresh=${refresh} navigate=${navigate} />` : null}

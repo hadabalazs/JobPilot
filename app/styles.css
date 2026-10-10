@@ -289,3 +289,62 @@ details.provider { border: 1px solid var(--line); border-radius: var(--radius); 
 .checkline input { flex:0 0 auto; margin-top:4px; }
 details > summary { cursor:pointer; }
 @media (max-width:900px) { .grid-3 { grid-template-columns:1fr; } }
+
+/* Compact navigation and a viewport-sized swipe workspace. Long descriptions
+   scroll inside the card; the decision buttons never move below the fold. */
+.settings-menu { position:relative; }
+.settings-menu > summary { list-style:none; min-height:44px; }
+.settings-menu > summary::-webkit-details-marker { display:none; }
+.settings-menu > summary span { margin-left:auto; }
+.settings-dropdown { position:absolute; left:0; top:100%; width:220px; padding:8px; background:var(--bg); border:1px solid var(--line); border-radius:12px; box-shadow:0 12px 35px #14302125; z-index:30; }
+.settings-dropdown .nav { min-height:44px; }
+.account-caption { border-top:1px solid var(--line); margin-top:6px; padding:10px; color:var(--ink-3); font-size:11px; overflow-wrap:anywhere; }
+.swipe-shell { height:100dvh; min-height:0; overflow:hidden; }
+.swipe-shell > main { min-height:0; padding:12px 20px; overflow:hidden; }
+.discover-swipe { height:100%; min-height:0; display:flex; flex-direction:column; }
+.discover-swipe > .topbar { margin-bottom:4px; flex-wrap:nowrap; gap:8px; }
+.discover-swipe > .topbar h1 { font-size:19px; letter-spacing:-.3px; }
+.discover-swipe .topbar button { min-height:40px; }
+.discover-swipe .review-tabs button { padding:8px 12px; min-height:40px; }
+.discover-swipe .review-status { flex:none; min-height:28px; padding:2px 0; gap:6px; max-height:70px; overflow:auto; }
+.discover-swipe .swipe-stage { flex:1; min-height:0; width:100%; max-width:600px; margin:0 auto; display:flex; flex-direction:column; }
+.discover-swipe .swipe-count { flex:none; margin:0 0 4px; font-size:11px; }
+.discover-swipe .swipe-wrap { flex:1; min-height:0; display:flex; flex-direction:column; padding:0 5px; }
+.discover-swipe .swipe-card { flex:1; min-height:0; display:flex; flex-direction:column; padding:14px; border-radius:18px; }
+.discover-swipe .swipe-card-top { flex:none; margin-bottom:8px; }
+.discover-swipe .company-mark { width:32px; height:32px; border-radius:9px; font-size:13px; }
+.swipe-card-content { min-height:0; overflow-y:auto; overscroll-behavior:contain; scrollbar-width:thin; padding-right:4px; }
+.discover-swipe .swipe-card h2 { font-size:clamp(20px,2.3vw,26px); line-height:1.15; overflow-wrap:anywhere; }
+.discover-swipe .swipe-card .eyebrow { margin-bottom:4px; }
+.discover-swipe .swipe-card p { margin:6px 0; }
+.discover-swipe .fit-notes { padding:10px 12px; margin:10px 0; }
+.discover-swipe .fit-notes p { font-size:12px; line-height:1.45; }
+.discover-swipe .fit-notes h3 { font-size:11px; }
+.discover-swipe .original-link { padding-top:6px; }
+.discover-swipe .swipe-actions { flex:none; margin:8px 0 0; gap:12px; }
+.discover-swipe .swipe-actions button { min-height:46px; padding:8px 22px; }
+.discover-swipe .swipe-actions b { font-size:24px; }
+.discover-swipe .review-empty { overflow:auto; padding:20px; }
+.discover-swipe .discovery-footer { flex:none; position:relative; margin-top:6px; padding-top:4px; font-size:11px; text-align:center; }
+.discovery-footer summary { cursor:pointer; color:var(--ink-3); }
+.discover-swipe .search-details { position:absolute; bottom:100%; left:0; right:0; max-height:50dvh; overflow:auto; padding:14px; background:var(--bg); border:1px solid var(--line); border-radius:12px; box-shadow:0 8px 30px #14302120; z-index:3; text-align:left; }
+@media (max-width:900px) {
+  .side { flex-wrap:nowrap; align-items:center; padding:4px 6px; gap:0; }
+  .side .logo { display:none; }
+  .side > .nav, .side > .settings-menu { flex:1; min-width:0; }
+  .side > .nav, .settings-menu > summary { padding:8px 5px; min-height:44px; justify-content:center; font-size:12px; gap:4px; white-space:nowrap; }
+  .side .nav .count { margin-left:0; font-size:10px; }
+  .settings-menu > summary span { margin-left:0; }
+  .settings-dropdown { left:auto; right:0; width:min(240px,90vw); }
+  .swipe-shell { grid-template-rows:auto minmax(0,1fr); }
+  .swipe-shell > main { padding:4px 8px max(6px,env(safe-area-inset-bottom)); }
+  .discover-swipe .swipe-stage { overflow:visible; padding:0; }
+}
+@media (max-width:380px), (max-height:650px) {
+  .discover-swipe > .topbar h1 { font-size:17px; }
+  .discover-swipe .review-tabs button { padding:4px 8px; min-height:34px; }
+  .discover-swipe .swipe-card { padding:10px; }
+  .discover-swipe .swipe-card-top { margin-bottom:4px; }
+  .discover-swipe .swipe-card h2 { font-size:20px; }
+  .discover-swipe .swipe-count { display:none; }
+}
